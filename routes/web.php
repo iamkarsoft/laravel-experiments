@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +18,57 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/allowed', function () {
+    dump(auth()->user()->email);
+    if (Gate::allows('isAdmin')) {
+        dd('Admin Allowed');
+    } else {
+        dd('You are not Admin');
+    }
+});
+
+Route::get('/allowed-2', function () {
+    dump(auth()->user()->email);
+    Gate::authorize('isAdmin');
+
+    dump('hello');
+});
+
+
+Route::get('/denied', function () {
+    dump(auth()->user()->email);
+    if (Gate::denies('isAdmin')) {
+        dd('You are not admin');
+    } else {
+        dd('Admin allowed');
+    }
+});
+
+
+Route::get('/denied-2', function () {
+    dump(auth()->user()->email);
+
+    Gate::authorize('isAdmin');
+
+    dump('hello');
+});
+
+
+Route::get('/allow/admin', function () {
+    echo 'allowed admin';
+})->middleware('can:isAdmin');
+
+Route::get('/allow/user', function () {
+    echo 'allowed user';
+})->middleware('can:isUser');
+
+Route::get('/allow/member', function () {
+    echo 'allowed member';
+})->middleware('can:isMember');
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
