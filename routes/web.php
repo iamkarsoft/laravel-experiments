@@ -75,5 +75,6 @@ Route::get('/dashboard', function () {
 Route::get('/posts', [PostController::class, 'index'])->name('posts');
 Route::get('/post/create', [PostController::class, 'store'])->name('post.create');
 Route::get('/post/update/{post}', [PostController::class, 'update'])->name('post.update');
+Route::get('/post/delete/{post}', [PostController::class, 'destroy'])->name('post.delete');
 
 require __DIR__ . '/auth.php';

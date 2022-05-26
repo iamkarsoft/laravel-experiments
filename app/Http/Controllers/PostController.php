@@ -102,6 +102,12 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        if (auth()->user()->can('delete', $post)) {
+            $post->delete();
+            echo 'deleted';
+        } else {
+            echo "You're not authorized";
+        }
     }
 }
