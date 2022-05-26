@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 
@@ -47,9 +48,7 @@ Route::get('/denied', function () {
 
 Route::get('/denied-2', function () {
     dump(auth()->user()->email);
-
     Gate::authorize('isAdmin');
-
     dump('hello');
 });
 
@@ -71,4 +70,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+
+Route::get('/posts', [PostController::class, 'index'])->name('posts');
+Route::resource('post', PostController::class)->except('index');
 require __DIR__ . '/auth.php';
