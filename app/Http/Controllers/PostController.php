@@ -37,15 +37,16 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $post = Post::create([
+
+
+        Post::create([
             'title' => 'this is the title',
             'content' => 'this is the content',
             'user_id' => auth()->user()->id
         ]);
 
 
-        return redirect()->route('post');
+        return redirect()->route('posts');
     }
 
     /**
@@ -56,7 +57,6 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -79,7 +79,19 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id);
+
+        if (auth()->user()->can('update', $post)) {
+
+            $post->update([
+                'title' => 'this is the title post again and again ' . $id,
+                'content' => 'this is the content of post ' . $id
+            ]);
+        } else {
+            echo 'not authorized';
+        }
+
+        dump($post);
     }
 
     /**

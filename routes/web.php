@@ -48,6 +48,7 @@ Route::get('/denied', function () {
 
 Route::get('/denied-2', function () {
     dump(auth()->user()->email);
+
     Gate::authorize('isAdmin');
     dump('hello');
 });
@@ -72,5 +73,7 @@ Route::get('/dashboard', function () {
 
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts');
-Route::resource('post', PostController::class)->except('index');
+Route::get('/post/create', [PostController::class, 'store'])->name('post.create');
+Route::get('/post/update/{post}', [PostController::class, 'update'])->name('post.update');
+
 require __DIR__ . '/auth.php';
