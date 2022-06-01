@@ -50,4 +50,15 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+
+    /**
+     * one to many
+     */
+
+    // /uers/user/posts
+    // $user->posts
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }
